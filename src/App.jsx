@@ -1,61 +1,96 @@
 
-import './App.css'
+import React, { useRef, useState } from "react";
+import "./App.css";
 
-import {useState} from 'react'
+const TodoApp = () => {
 
-function App() {
-  
+  const [title, setTitle] = useState('')
+  const [todo, setTodo] = useState([]);
 
-  const [todo , setTodo] = useState('')
-  const [content , setContent] = useState('')
+  function add(e) {
 
-  function addTodo(event){
-
-    console.log("button click");
-    event.preventDefault();
+    e.preventDefault();
+    console.log(title);
+    setTitle('')
+    todo.push({
+      title: title,
+      id: Date.now()
+    });
     console.log(todo);
-    console.log(content);
-    
-    setTodo('')
-    setContent('')
+    setTodo([...todo]);
+
   }
 
-  return(
+
+  const deleteTodo = (index) => {
+
+    console.log(index);
+    todo.splice(index, 1)
+    setTodo([...todo])
+
+  }
+
+  const editTodo = (index) => {
+
+    console.log(index);
+    const updatedValue = prompt('Enter Updated Title')
+    todo[index].title = updatedValue;
+    setTodo([...todo])
+
+  }
+
+
+
+  return (
 
     <>
-
       <h1>TODO APP</h1>
+      <div className="container">
+        <form className="todo-form" onSubmit={add}>
+          <input type="text" className="todo-input" placeholder="Enter a task..." value={title} onChange={(e) => { setTitle(e.target.value) }} />
+          <button type="submit" className="todo-button">Add</button>
+        </form>
+      </div>
 
-      <form 
-      onSubmit={addTodo}
-      >
+      <div className="main-div">
+        {todo.length > 0 ? <table className="data-table">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Heading</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-       <input
-        type="text"
-        onChange={(e)=>{setTodo(e.target.value)}} 
-        value={todo}   
-        placeholder="Enter Todo" 
-        />
+          {
+            todo.map((item, index) => {
 
-        <br/>
-        <br/>
+              return (
 
-        <input 
-        type="text" 
-        onChange={(e)=>{setContent(e.target.value)}} 
-        value={content} 
-        placeholder="Enter Content"  
-        />
+                <tbody key={item.id}>
+                  <tr>
+                    <td className="serial-no">{index + 1}</td>
+                    <td className="heading">{item.title}</td>
+                    <td className="button-group">
+                      <button className="edit-btn" onClick={() => { editTodo(index) }}>Edit</button>
+                      <button className="delete-btn" onClick={() => { deleteTodo(index) }}>Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              )
+            })}
+        </table>
 
-        <br/>
-        <br/>
-    
-        <button>Add</button>
+        : <h1>No Todo Found...</h1>
+        
+        }
 
-      </form>
+      </div>
+
     </>
+  );
+};
 
-  )
-}
+export default TodoApp;
 
-export default App
+
