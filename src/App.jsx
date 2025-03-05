@@ -32,11 +32,15 @@ const TodoApp = () => {
 
   const editTodo = (index) => {
 
-    console.log(index);
     const updatedValue = prompt('Enter Updated Title')
-    todo[index].title = updatedValue;
-    setTodo([...todo])
-
+    console.log(index);
+    if(updatedValue === ''){
+      alert("Enter Updated Value!")
+      return
+    }else{
+        todo[index].title = updatedValue;
+        setTodo([...todo])
+    }
   }
 
 
@@ -57,7 +61,7 @@ const TodoApp = () => {
           <thead>
             <tr>
               <th>S.No</th>
-              <th>Heading</th>
+              <th>Todos</th>
               <th>Actions</th>
             </tr>
           </thead>
