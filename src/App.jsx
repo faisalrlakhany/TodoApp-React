@@ -12,12 +12,18 @@ const TodoApp = () => {
     e.preventDefault();
     console.log(title);
     setTitle('')
+    if(title === ''){
+
+      alert('Empty Todo')
+      return
+    }
     todo.push({
       title: title,
       id: Date.now()
     });
     console.log(todo);
     setTodo([...todo]);
+
 
   }
 
@@ -57,7 +63,7 @@ const TodoApp = () => {
       </div>
 
       <div className="main-div">
-        {todo.length > 0 ? <table className="data-table">
+        {todo.length > 0   ? <table className="data-table">
           <thead>
             <tr>
               <th>S.No</th>
